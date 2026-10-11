@@ -1,0 +1,11 @@
+{
+  "ext_name": {
+    "message": "起身活动提醒 · StandUp"
+  },
+  "ext_description": {
+    "message": "久坐提醒助手：每隔 N 分钟或 X 小时提醒你站起来活动 3 分钟，浏览器内弹窗 + 倒计时。"
+  },
+  "action_title": {
+    "message": "起身活动提醒 · StandUp"
+  }
+}

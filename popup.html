@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="brand">
+      <div class="logo">🧍</div>
+      <div>
+        <h1 data-i18n="appName">起身活动提醒</h1>
+        <p data-i18n="tagline">久坐一小时，起身动一动</p>
+      </div>
+    </div>
+    <label class="switch" data-i18n-title="switchTip">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <main>
+    <section class="card next">
+      <div class="next-label" data-i18n="nextReminder">下次提醒</div>
+      <div class="next-time" id="countdown">--:--</div>
+      <div class="next-actions">
+        <button class="btn primary" id="nowBtn" data-i18n="startNow">立即休息</button>
+        <button class="btn ghost" id="snoozeBtn">推迟 5 分钟</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title" data-i18n="frequency">提醒频率</div>
+      <div class="row">
+        <input type="number" id="intervalValue" class="num" min="1" max="600" value="45">
+        <select id="intervalUnit" class="select">
+          <option value="minute" data-i18n="unitMinute">分钟</option>
+          <option value="hour" data-i18n="unitHour">小时</option>
+        </select>
+      </div>
+      <div class="chips" id="freqChips">
+        <button class="chip" data-minutes="15"></button>
+        <button class="chip" data-minutes="30"></button>
+        <button class="chip" data-minutes="45"></button>
+        <button class="chip" data-minutes="60"></button>
+        <button class="chip" data-minutes="90"></button>
+        <button class="chip" data-minutes="120"></button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title" data-i18n="breakDuration">每次活动时长</div>
+      <div class="chips" id="breakChips">
+        <button class="chip" data-minutes="1"></button>
+        <button class="chip" data-minutes="3"></button>
+        <button class="chip" data-minutes="5"></button>
+        <button class="chip" data-minutes="10"></button>
+      </div>
+    </section>
+
+    <section class="card stats">
+      <div class="card-title" data-i18n="todayData">今日数据</div>
+      <div class="stat-grid">
+        <div class="stat"><b id="statDone">0</b><span data-i18n="statDone">完成(次)</span></div>
+        <div class="stat"><b id="statMin">0</b><span data-i18n="statMinutes">活动(分钟)</span></div>
+        <div class="stat"><b id="statSkip">0</b><span data-i18n="statSkip">跳过(次)</span></div>
+      </div>
+      <div class="stat-foot" id="statFoot">累计完成 0 次 · 0 分钟</div>
+    </section>
+
+    <details class="card adv">
+      <summary data-i18n="advanced">高级设置</summary>
+      <div class="opt">
+        <span data-i18n="optOverlay">浏览器内弹窗提醒</span>
+        <label class="switch small"><input type="checkbox" id="overlayEnabled"><span class="slider"></span></label>
+      </div>
+      <div class="opt">
+        <span data-i18n="optNotification">系统通知</span>
+        <label class="switch small"><input type="checkbox" id="notificationEnabled"><span class="slider"></span></label>
+      </div>
+      <div class="opt">
+        <span data-i18n="optSound">提示音</span>
+        <label class="switch small"><input type="checkbox" id="soundEnabled"><span class="slider"></span></label>
+      </div>
+      <div class="opt">
+        <span data-i18n="optIdle">电脑空闲时自动延后</span>
+        <label class="switch small"><input type="checkbox" id="pauseWhenIdle"><span class="slider"></span></label>
+      </div>
+      <div class="opt col">
+        <div class="opt-head">
+          <span data-i18n="optDnd">免打扰时段</span>
+          <label class="switch small"><input type="checkbox" id="dndEnabled"><span class="slider"></span></label>
+        </div>
+        <div class="row">
+          <input type="time" id="dndStart" class="time">
+          <span class="dash" data-i18n="to">至</span>
+          <input type="time" id="dndEnd" class="time">
+        </div>
+      </div>
+      <div class="opt">
+        <span data-i18n="snoozeLen">「稍后提醒」时长(分钟)</span>
+        <input type="number" id="snoozeMinutes" class="num small-num" min="1" max="60">
+      </div>
+    </details>
+
+    <footer>
+      <label class="lang-row">
+        <span data-i18n="langLabel">语言</span>
+        <select id="lang" class="lang-sel">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <button class="link" id="resetBtn" data-i18n="resetToday">重置今日数据</button>
+      <span class="ver">v1.1.0</span>
+    </footer>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

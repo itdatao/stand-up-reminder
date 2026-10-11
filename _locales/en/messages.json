@@ -1,0 +1,11 @@
+{
+  "ext_name": {
+    "message": "StandUp Reminder"
+  },
+  "ext_description": {
+    "message": "A sit-stand reminder: every N minutes or X hours it prompts you to stand up and move for 3 minutes, with an in-browser popup and countdown."
+  },
+  "action_title": {
+    "message": "StandUp Reminder"
+  }
+}

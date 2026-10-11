@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>StandUp 弹窗效果预览</title>
+  <link rel="stylesheet" href="break.css">
+  <style>
+    .demo-wrap { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 84px 24px; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    p { color: #64748b; line-height: 1.8; font-size: 14px; }
+    .demo-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .demo-btns button {
+      font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 10px 16px; border-radius: 11px; border: 1px solid #e6ebf2; background: #fff; color: #334155;
+    }
+    .demo-btns button.primary { border: 0; color: #fff; background: linear-gradient(135deg, #22c55e, #0ea5e9); }
+    @media (prefers-color-scheme: dark) {
+      h1 { color: #e6edf7; }
+      .demo-btns button { background: #131c2e; border-color: #23304a; color: #cbd5e1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+  <div class="page-head"><span class="dot"></span> StandUp · 弹窗效果预览（无需安装扩展）</div>
+  <div class="demo-wrap">
+    <h1>浏览器内弹窗效果预览</h1>
+    <p>这是插件在浏览器中弹出的「起身活动」提醒界面。真实使用时它会被注入到任意网页之上（Shadow DOM 隔离，不影响页面样式），或者以独立标签页的形式打开。支持中英文切换。</p>
+    <p>点击下面的按钮体验不同状态：</p>
+    <div class="demo-btns">
+      <button class="primary" data-mode="normal">标准提醒（3 分钟）</button>
+      <button data-mode="short" data-sec="15">快速演示（15 秒倒计时）</button>
+      <button data-mode="long" data-sec="600">10 分钟活动</button>
+      <button data-mode="en" data-lang="en">English reminder</button>
+      <button data-mode="mute" data-mute="1">静音提醒</button>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="break-ui.js"></script>
+  <script>
+    function show(config) {
+      window.BreakUI.mount(config, {
+        onComplete: function (sec, early) { console.log('完成，实际活动秒数:', sec, '提前结束:', early); },
+        onSkip: function () { console.log('跳过'); },
+        onSnooze: function (m) { console.log('稍后提醒:', m, '分钟'); },
+        onDismiss: function () { window.BreakUI.unmount(); }
+      });
+    }
+
+    document.querySelectorAll('.demo-btns button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var lang = btn.dataset.lang || 'zh';
+        show({
+          breakSeconds: Number(btn.dataset.sec) || 180,
+          snoozeMinutes: 5,
+          soundEnabled: !btn.dataset.mute,
+          messages: window.StandUpI18n.getMessages(lang)
+        });
+      });
+    });
+
+    // 支持 demo.html#auto 直接弹出标准提醒，方便截图/演示
+    // 追加 start=1 可直接进入倒计时：demo.html#auto&sec=20&start=1
+    // 追加 lang=en 可切换英文：demo.html#auto&lang=en
+    if (location.hash.indexOf('auto') >= 0) {
+      var params = new URLSearchParams(location.hash.replace(/^#/, ''));
+      var lang = params.get('lang') === 'en' ? 'en' : 'zh';
+      show({
+        breakSeconds: Number(params.get('sec')) || 180,
+        snoozeMinutes: Number(params.get('snooze')) || 5,
+        soundEnabled: params.get('mute') !== '1',
+        messages: window.StandUpI18n.getMessages(lang)
+      });
+      if (params.get('start') === '1') {
+        setTimeout(function () { window.BreakUI && window.BreakUI.start(); }, 60);
+      }
+    }
+  </script>
+</body>
+</html>
